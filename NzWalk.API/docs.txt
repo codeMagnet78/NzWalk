@@ -1,0 +1,15 @@
+On the Soultion Explorer - under the soution right click Dependecies and select Manage NuGet Packages to install the below two
+
+Microsoft.EntityFrameworkCore.SqlServer
+
+Microsoft.EntityFrameworkCore.Tools
+
+https://github.com/sameer8saini/NZWalks-Solution.git
+
+Run EF Core Migration
+
+1. Got to Tools -> NuGet Package Manager - > Package Manager Console
+
+Two commands > Add-Migration "Name of the Migration"
+
+> Update-Database
