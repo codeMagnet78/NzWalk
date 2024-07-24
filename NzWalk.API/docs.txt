@@ -13,3 +13,6 @@ Run EF Core Migration
 Two commands > Add-Migration "Name of the Migration"
 
 > Update-Database
+
+Notes: The IActionResult return type is appropriate when multiple ActionResult return types are possible in an action. 
+The main advantage is that you can return error/status codes or redirects/resource urls
