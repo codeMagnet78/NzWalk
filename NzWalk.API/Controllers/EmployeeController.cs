@@ -7,7 +7,7 @@ namespace NzWalk.API.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        string[] _employees = {"Abhishek", "Mansi", "Samaira"};
+        string[] _employees = {"A", "M", "S"};
 
         [HttpGet]
         public IActionResult GetAllEmployees()
