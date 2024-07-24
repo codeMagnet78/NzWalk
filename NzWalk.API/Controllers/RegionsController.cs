@@ -92,5 +92,105 @@ namespace NzWalk.API.Controllers
             // Return the DTO to client
             return Ok(regionsDto);
         }
+
+        // Post to create New Region
+        // POST: https://localhost:portnumber/api/regions
+
+        [HttpPost]
+        public IActionResult Create([FromBody] AddRegionRequestDto addRegionRequestDto)
+        {
+            // Map or convert DTO to Domina model
+            var regionDomain = new Region
+            {
+                Code = addRegionRequestDto.Code,
+                Name = addRegionRequestDto.Name,
+                RegionImageUrl = addRegionRequestDto.RegionImageUrl
+            };
+
+            // Use Domain model to create region in Database
+            dbContext.Regions.Add(regionDomain);
+            dbContext.SaveChanges();
+
+            //Map doamin model back to DTO
+            var regionDto = new RegionDto
+            {
+                Id = regionDomain.Id,
+                Name = regionDomain.Name,
+                Code = regionDomain.Code,
+                RegionImageUrl = regionDomain.RegionImageUrl
+            }; 
+            return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
+        }
+
+        // Update Region
+        // PUT: https://localhost:portnumber/api/regions/{id}
+
+        [HttpPut]
+        [Route("{id:Guid}")]
+
+        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
+        {
+            //check if region exist
+            var regionDomain = dbContext.Regions.FirstOrDefault(r => r.Id == id);
+
+            if (regionDomain == null)
+            {
+                return NotFound();
+            }
+            // MAP DTO to Domain Model
+            regionDomain.Code = updateRegionRequestDto.Code;
+            regionDomain.Name = updateRegionRequestDto.Name;
+            regionDomain.RegionImageUrl = updateRegionRequestDto.RegionImageUrl;
+
+            dbContext.SaveChanges();
+
+            //Convert doamin model to DTO
+            var regionDto = new RegionDto
+            {
+                Id = regionDomain.Id,
+                Name = regionDomain.Name,
+                Code = regionDomain.Code,
+                RegionImageUrl = regionDomain.RegionImageUrl
+
+            };
+
+            // Pass DTO back to client
+            return Ok(regionDto);
+
+        }
+
+
+        //Delete Region
+        // DELETE: https://localhost:portnumber/api/regions/{id}
+
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public IActionResult Delete([FromRoute] Guid id) 
+        {
+            //Check if region exist
+            var regionDomain = dbContext.Regions.FirstOrDefault(r => r.Id == id);
+            if (regionDomain == null)
+            {
+                return NotFound();
+            }
+
+            //Delete region
+            dbContext.Regions.Remove(regionDomain);
+            dbContext.SaveChanges();
+
+            //If you want to send the deleted item back
+            // Map or Cover from Domain to DTO
+
+            var regionDto = new RegionDto
+            {
+                Id = regionDomain.Id,
+                Name = regionDomain.Name,
+                Code = regionDomain.Code,
+                RegionImageUrl = regionDomain.RegionImageUrl
+            };
+
+            return Ok(regionDto);
+        }
     }
+
 }
