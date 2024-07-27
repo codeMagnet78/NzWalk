@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NzWalk.API.Data;
+using NzWalk.API.Mappings;
 using NzWalk.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,9 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectio
 //AddScoped: Scoped lifetime services are created once per request.
 // Scoped repositories are created once per HTTP request, and then disposed of at the end of the request
 builder.Services.AddScoped<IRegionRepository, SqlRegionRepository>();
+
+//Injecting Automapper to use the profiles 
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 
 var app = builder.Build();
